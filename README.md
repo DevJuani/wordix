@@ -20,4 +20,4 @@ Profesores:
 # Integrantes del Grupo
 Integrantes:
     **- Juan Ignacio Cruz Oviedo** - Legajo: FAI 2558 - mail: juan.cruz@est.fi.uncoma.edu.ar - Github: DevJuani
-    **- Francisco Padilla** - Legajo: FAI 3168 - mail: francisco.padilla@est.fi.uncoma.edu.ar - Github_ FranPadilla0154
+    **- Francisco Padilla** - Legajo: FAI 3168 - mail: francisco.padilla@est.fi.uncoma.edu.ar - Github: FranPadilla0154
