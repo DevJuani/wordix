@@ -28,17 +28,34 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 
 /**
  *  ****COMPLETAR*****
+ * @param int $min
+ * @param int $max
+ * @return int
  */
 function solicitarNumeroEntre($min, $max)
 {
     //int $numero
-    $numero = trim(fgets(STDIN));
+    $numero = trim(fgets(STDIN)); //pide numero al usuario
     while (!is_int($numero) && !($numero >= $min && $numero <= $max)) {
         echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
-        $numero = trim(fgets(STDIN));
+        $numero = trim(fgets(STDIN)); //pide numero al usuario dentro de la repetitiva
+        
     }
+
+    
+
     return $numero;
 }
+
+// punto 5
+
+  // function numeroUsuario ($min, $max) {
+   // echo "ingrese un numero entre"
+   // $numero=solicitarNumeroEntre($min,$max);
+
+   // return $numero; //
+ // }
+//
 
 /**
  * Escrbir un texto en color ROJO
@@ -126,14 +143,16 @@ function escribirMensajeBienvenida($usuario)
 
 /**
  * ****COMPLETAR*****
+ * @param string $cadena
+ * @return int
  */
 function esPalabra($cadena)
 {
     //int $cantCaracteres, $i, boolean $esLetra
-    $cantCaracteres = strlen($cadena);
-    $esLetra = true;
-    $i = 0;
-    while ($esLetra && $i < $cantCaracteres) {
+    $cantCaracteres = strlen($cadena); //cuenta la cantidad de caracteres del string
+    $esLetra = true;                  //inicializa la varible
+    $i = 0;                           //inicializa la varible
+    while ($esLetra && $i < $cantCaracteres) { 
         $esLetra =  ctype_alpha($cadena[$i]);
         $i++;
     }
@@ -329,7 +348,7 @@ function esIntentoGanado($estructuraPalabraIntento)
 function obtenerPuntajeWordix($cantIntentosRealizados, $palabraIntento) 
 {
     //int $puntaje
-    $puntaje = 0;
+    $puntaje = 0; // preguntar si se incicializa. ??
     switch ($cantIntentosRealizados) {
         case 1:
             $puntaje = 6;
