@@ -299,11 +299,59 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
 
 
 
+<<<<<<< Updated upstream
+
+=======
+/**
+<<<<<<< Updated upstream
+ * Agrega una palabra a la colección de palabras
+=======
+ * Convierte el nombre de un jugador en minúsculas
+ * @return string $nombreJugador
+ */
+function solicitarJugador() {
+    //String nombreJugador
+    echo "Ingrese el nombre de un jugador.";
+    $nombreJugador = trim(fgets(STDIN));
+    $nombreJugador = strtolower($nombreJugador);
+    return $nombreJugador;
+}
+
+/**
+ * Obtiene una colección de palabras
+ * @return array
+>>>>>>> Stashed changes
+ */
+function nuevaPalabra (){
+    $arrayDePalabras = cargarColeccionPalabras();
+    do{
+        $palabra = leerPalabra5Letras();
+        if(!in_array($palabra, $arrayDePalabras)){
+            array_push($arrayDePalabras, $palabra);
+            echo "La palabra " . $palabra . " fue agregada a la coleccion de palabras";
+            $respuesta = "N";
+        } else {
+            echo "La palabra ya existe . \n ";
+            echo "Desea intentar de nuevo? (s/n): ";
+            $respuesta = trim(fgets(STDIN));
+        }
+    } while($respuesta == "s");
+}
+>>>>>>> Stashed changes
+
+<<<<<<< Updated upstream
 
 
 
-
-
+=======
+/**
+ * Ordena por nombre y palabra un arreglo ingresado y lo muestra.
+ * @param array $coleccionPartidas
+ */
+function ordenarColeccion() {
+    uasort($coleccionPartidas)
+}
+>>>>>>> Stashed changes
 
 /* ... COMPLETAR ... */
 
