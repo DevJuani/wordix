@@ -374,14 +374,13 @@ function obtenerPuntajeWordix($cantIntentosRealizados, $palabraIntento)
         if($letraDePalabra == "A" || $letraDePalabra == "E" || $letraDePalabra == "I" ||$letraDePalabra == "O" || $letraDePalabra == "U"){
             $puntaje = $puntaje + 1;
         }
-        elseif($letraDePalabra <= "M"){
+        elseif($letraDePalabra == "B" || $letraDePalabra == "C" || $letraDePalabra == "D" ||$letraDePalabra == "F" || $letraDePalabra == "G" || $letraDePalabra == "H" || $letraDePalabra == "J" || $letraDePalabra == "K" || $letraDePalabra == "L" || $letraDePalabra == "M"){
             $puntaje = $puntaje + 2;
         }
         else{
-            $puntaje = $puntaje + 3;
+        $puntaje = $puntaje + 3;
         }
     }
-    
     return $puntaje;
 }
 
