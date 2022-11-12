@@ -7,7 +7,7 @@ include_once("wordix.php");
 
 /* Apellido, Nombre. Legajo. Carrera. mail. Usuario Github */
 //Cruz Ovieso Juan Ignacio, FAI - 2558, Tec. en Desarrollo Web, juan.cruz@est.fi.uncoma.edu.com.ar, DevJuani
-//De Philippis Daniel, FAI - 4328, Tec. en Desarrollo Web, daniel.dephilippis@est.fi.uncoma.edu.ar. DePhilippisdani
+//De Philippis Daniel, FAI - 4328, Tec. en Desarrollo Web, daniel.dephilippis@est.fi.uncoma.edu.ar. DePhilippisDani
 
 
 
@@ -109,38 +109,6 @@ function cargarColeccionPartidas(){
  * @return string
  */
 function seleccionarOpcion(){
-    do{
-        $opcion = trim((fgets(STDIN)));
-        switch ($opcion){
-            case "1":
-                //Jugar wordix con palabra aleatoria
-                break;
-            case "2":
-                //Jugar wordix con palabra elegida
-                break;
-            case "3":
-                //Mostrar una partida
-                break;
-            case "4":
-                //Mostrar primera partida ganadora
-                break;
-            case "5":
-                //Mostrar estadisticas del jugador
-                break;
-            case "6":
-                //Mostrar listado de partidas ordenadas por jugador y por palabra
-                break;
-            case "7":
-                //Agregar una palabra de 5 letras
-                
-                break;
-            case "8":
-                echo "Gracias por jugar Wordix";
-                break;
-            default:
-                echo "Opcion incorrecta, ingrese una opcion valida: ";
-            }
-    } while ($opcion < 1 || $opcion > 8);
 }
 //punto 4
 /**
@@ -162,9 +130,9 @@ function palabraPorJugador(){
 // $min=1 (porq hay siempre minimo hay una palabra y como maximo el resultado de count ($coleccionPalabras))
 function numeroUsuario ($min, $max) {
     //int $numero
-   echo "ingrese un numero entre";  
+   echo "ingrese un numero entre $min y $max.\n";
    $numero=solicitarNumeroEntre($min,$max);
-return $numero; 
+   return $numero; 
   }
 
 
@@ -179,7 +147,7 @@ return $numero;
   function resumenPartida ($min,$maxP) {
      //int $nro
      $coleccionPartidas = cargarColeccionPartidas ();
-      echo "ingrese el núemro de partida";
+      echo "ingrese el número de partida";
       $nro= solicitarNumeroEntre ($min, $maxP);
       echo $coleccionPartidas [$nro] ["palabraWordix"] ."\n".$coleccionPartidas [$nro] ["jugador"]."\n". $coleccionPartidas [$nro] ["intentos"] .
       "\n". $coleccionPartidas [$nro] ["puntajes"];
@@ -188,12 +156,12 @@ return $numero;
 /**
  * Agrega una palabra a la colección de palabras
  */
-function agregarPalabra ($colecionPalabras,$nuevaPalabra){
+function agregarPalabra ($coleccionPalabras,$nuevaPalabra){
     
     do{
        
-        if(!in_array($nuevaPalabra, $colecionPalabras)){
-            array_push($colecionPalabras, $nuevaPalabra);
+        if(!in_array($nuevaPalabra, $coleccionPalabras)){
+            array_push($coleccionPalabras, $nuevaPalabra);
             echo "La palabra " . $nuevaPalabra . " fue agregada a la coleccion de palabras";
             $respuesta = "N";
         } else {
@@ -203,7 +171,7 @@ function agregarPalabra ($colecionPalabras,$nuevaPalabra){
         }
     } while($respuesta == "s");
 
-return $colecionPalabras;  
+return $coleccionPalabras;
 }
 
 //punto 8
@@ -267,10 +235,10 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
     $n = count($coleccionPartidas);
     for ($i=0; $i<=$n; $i++) {
         if ($coleccionPartidas[$jugador][$i] == $nombreJugador) {
-            if ($coleccionPartidas[$puntaje][$i] <> 0) {
-                $puntajeResumen = $puntajeResumen + $coleccionPartidas[$puntaje][$i];
+            if ($coleccionPartidas["puntaje"][$i] <> 0) {
+                $puntajeResumen = $puntajeResumen + $coleccionPartidas["puntaje"][$i];
                 $victoriasResumen++;
-                switch ($coleccionPartidas[$intentos][$i]) {
+                switch ($coleccionPartidas["intentos"][$i]) {
                     case 1:
                         $int1++;
                         break;
@@ -298,14 +266,9 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
 }
 
 
-
-<<<<<<< Updated upstream
-
-=======
+// Punto 10
 /**
-<<<<<<< Updated upstream
  * Agrega una palabra a la colección de palabras
-=======
  * Convierte el nombre de un jugador en minúsculas
  * @return string $nombreJugador
  */
@@ -313,49 +276,28 @@ function solicitarJugador() {
     //String nombreJugador
     echo "Ingrese el nombre de un jugador.";
     $nombreJugador = trim(fgets(STDIN));
+    while (!ctype_alpha(substr($nombreJugador, 0))) {
+        if (!ctype_alpha(substr($nombreJugador, 0))) {
+            echo "Error, el primer carácter no es una letra. Ingrese el nombre de un jugador.";
+            $nombreJugador = trim(fgets(STDIN));
+        }
+    }
     $nombreJugador = strtolower($nombreJugador);
     return $nombreJugador;
 }
 
-/**
- * Obtiene una colección de palabras
- * @return array
->>>>>>> Stashed changes
- */
-function nuevaPalabra (){
-    $arrayDePalabras = cargarColeccionPalabras();
-    do{
-        $palabra = leerPalabra5Letras();
-        if(!in_array($palabra, $arrayDePalabras)){
-            array_push($arrayDePalabras, $palabra);
-            echo "La palabra " . $palabra . " fue agregada a la coleccion de palabras";
-            $respuesta = "N";
-        } else {
-            echo "La palabra ya existe . \n ";
-            echo "Desea intentar de nuevo? (s/n): ";
-            $respuesta = trim(fgets(STDIN));
-        }
-    } while($respuesta == "s");
-}
->>>>>>> Stashed changes
-
-<<<<<<< Updated upstream
-
-
-
-=======
+//Punto 11
 /**
  * Ordena por nombre y palabra un arreglo ingresado y lo muestra.
  * @param array $coleccionPartidas
  */
-function ordenarColeccion() {
-    uasort($coleccionPartidas)
-}
->>>>>>> Stashed changes
-
-/* ... COMPLETAR ... */
+function ordenarColeccion() //{
+    //uasort($coleccionPartidas);
+//}
 
 
+
+//Punto 12
 
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
@@ -368,33 +310,51 @@ function ordenarColeccion() {
 
 
 //Proceso:
-
-$partida = jugarWordix("MELON", strtolower("MaJo"));
-//print_r($partida);
-//imprimirResultado($partida);
-
-
-
-/*
 do {
-    $opcion = ...;
-
-    
-    switch ($opcion) {
-        case 1: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
-
+    seleccionarOpcion();
+    $opcion = trim((fgets(STDIN)));
+    switch ($opcion){
+        case "1":
+            $nombreJugador = solicitarJugador();
+            $numero = numeroUsuario(1, count(cargarColeccionPalabras())) - 1;
+            while (cargarColeccionPalabras()[$numero] == cargarColeccionPartidas()[$numero]["palabraWordix"] && $nombreJugador == cargarColeccionPartidas()[$numero]["jugador"]) {
+                echo "$nombreJugador ya ha jugado esa palabra, ingrese otro número.";
+                $numero = trim(fgets(STDIN));
+            }
+            $palabraAJugar = cargarColeccionPalabras()[$numero];
+            $resultado = jugarWordix($palabraAJugar, $nombreJugador);
+            //array_push(cargarColeccionPartidas(), $resultado); esto es legal?
             break;
-        case 2: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
-
+        case "2":
+            $nombreJugador = solicitarJugador();
+            $numero = rand(0, count(cargarColeccionPalabras()) - 1);
+            while (cargarColeccionPalabras()[$numero] == cargarColeccionPartidas()[$numero]["palabraWordix"] && $nombreJugador == cargarColeccionPartidas()[$numero]["jugador"]) {
+                $numero = rand(0, count(cargarColeccionPalabras()) - 1);
+            }
+            $palabraAJugar = cargarColeccionPalabras()[$numero];
+            $resultado = jugarWordix($palabraAJugar, $nombreJugador);
+            //array_push(cargarColeccionPartidas(), $resultado); esto es legal?
             break;
-        case 3: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
-
+        case "3":
+            resumenPartida (1, count(cargarColeccionPartidas()));
             break;
-        
-            //...
-    }
-} while ($opcion != X);
-*/
+        case "4":
+            //Mostrar primera partida ganadora
+            break;
+        case "5":
+            //Mostrar estadisticas del jugador
+            break;
+        case "6":
+            //Mostrar listado de partidas ordenadas por jugador y por palabra
+            break;
+        case "7":
+            //Agregar una palabra de 5 letras
+            
+            break;
+        case "8":
+            echo "Gracias por jugar Wordix";
+            break;
+        default:
+            echo "Opcion incorrecta, ingrese una opcion valida: ";
+        }
+} while ($opcion < 1 || $opcion > 8);
