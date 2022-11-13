@@ -27,7 +27,6 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 /**************************************/
 
 /**
- *  ****COMPLETAR*****
  * @param int $min
  * @param int $max
  * @return int
@@ -38,12 +37,8 @@ function solicitarNumeroEntre($min, $max)
     $numero = trim(fgets(STDIN)); //pide numero al usuario
     while (!is_int($numero) && !($numero >= $min && $numero <= $max)) {
         echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
-        $numero = trim(fgets(STDIN)); //pide numero al usuario dentro de la repetitiva
-        
+        $numero = trim(fgets(STDIN)); //pide numero al usuario dentro de la repetitiva    
     }
-
-    
-
     return $numero;
 }
 
