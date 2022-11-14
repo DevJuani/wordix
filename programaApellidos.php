@@ -313,9 +313,10 @@ function solicitarJugador() {
  * Ordena por nombre y palabra un arreglo ingresado y lo muestra.
  * @param array $coleccionPartidas
  */
-//function ordenarColeccion() //{
-    //uasort($coleccionPartidas);
-//}
+function ordenarColeccion($coleccionPartidas) {
+    uasort($coleccionPartidas, "compararNombres"); //uasort es una función que ordena un arreglo con una función de comparación
+    print_r($coleccionPartidas);                   //definida por el usuario y mantiene la asociación de índices
+}
 
 
 //Extra
@@ -347,6 +348,16 @@ function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
         }
     }
     return $yaJugo;
+}
+/**
+ * Compara dos strings y retorna el resultado de la comparación
+ * @param array $a
+ * @param array $b
+ * @return int
+ */
+function compararNombres($a, $b) {
+    return strcmp($a["jugador"],$b["jugador"]); //strcmp es una función que compara dos strings a y b y retorna -1 si a es menor a b,
+                                                //retorna 1 si a es mayor a b, y 0 si son iguales
 }
 
 
@@ -414,6 +425,7 @@ while($opcion != 8){
                 break;
             case "6":
                 //Mostrar listado de partidas ordenadas por jugador y por palabra
+                ordenarColeccion($coleccionPartidas);
                 break;
             case "7":
                 //Agregar una palabra de 5 letras
