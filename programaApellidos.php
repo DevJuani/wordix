@@ -8,6 +8,7 @@ include_once("wordix.php");
 /* Apellido, Nombre. Legajo. Carrera. mail. Usuario Github */
 //Cruz Ovieso Juan Ignacio, FAI - 2558, Tec. en Desarrollo Web, juan.cruz@est.fi.uncoma.edu.com.ar, DevJuani
 //De Philippis Daniel, FAI - 4328, Tec. en Desarrollo Web, daniel.dephilippis@est.fi.uncoma.edu.ar. DePhilippisDani
+//Francisco Padilla, FAI - 3168, Tec. en Desarrollo Web, francisco.padilla@est.fi.uncoma.edu.ar, FranPadilla0154
 
 
 
