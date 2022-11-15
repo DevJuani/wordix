@@ -6,8 +6,9 @@ include_once("wordix.php");
 /**************************************/
 
 /* Apellido, Nombre. Legajo. Carrera. mail. Usuario Github */
-//Cruz Ovieso Juan Ignacio, FAI - 2558, Tec. en Desarrollo Web, juan.cruz@est.fi.uncoma.edu.com.ar, DevJuani
+//Cruz Oviedo Juan Ignacio, FAI - 2558, Tec. en Desarrollo Web, juan.cruz@est.fi.uncoma.edu.com.ar, DevJuani
 //De Philippis Daniel, FAI - 4328, Tec. en Desarrollo Web, daniel.dephilippis@est.fi.uncoma.edu.ar. DePhilippisDani
+//Francisco Padilla, FAI - 3168, Tec. en Desarrollo Web, francisco.padilla@est.fi.uncoma.edu.ar, FranPadilla0154
 
 
 
@@ -16,7 +17,6 @@ include_once("wordix.php");
 /**************************************/
 
 //punto 1
-
 /**
  * Obtiene una colección de palabras
  * @return array
@@ -137,7 +137,6 @@ function palabraPorJugador(){
 }
 
 // punto 5
-// $min=1 (porq hay siempre minimo hay una palabra y como maximo el resultado de count ($coleccionPalabras))
 /** Funcion que solicita un numero entre dos valores 
  * @param int $min
  * @param int $max
@@ -156,7 +155,6 @@ function numeroUsuario ($min, $max) {
  * @param $nro
  */   
 function resumenPartida ($nro, $coleccionPartidas) {
-     //int $nro
     if($nro != -1){
         echo "**********************************".
         "\nPartida WORDIX $nro: palabra " .$coleccionPartidas [$nro] ["palabraWordix"] . "\n".
@@ -174,7 +172,6 @@ function resumenPartida ($nro, $coleccionPartidas) {
     echo "**********************************";
 }
 
-
 //punto 7
 /**
  * Agrega una palabra a la colección de palabras
@@ -184,7 +181,7 @@ function resumenPartida ($nro, $coleccionPartidas) {
  */
 function agregarPalabra ($coleccionPalabras,$nuevaPalabra){
     if(!in_array($nuevaPalabra, $coleccionPalabras)){
-        array_push($coleccionPalabras, $nuevaPalabra);
+        array_push($coleccionPalabras, $nuevaPalabra);                      //trata al array como si fuera una pila y empuja la variable que se le pasa al final del array. El tamaño del array será incrementado por el número de variables insertados
         echo "La palabra se ha agregado a la colección de palabras";
     } else {
         echo "La palabra ya se encuentra en la colección de palabras";
@@ -194,8 +191,8 @@ return $coleccionPalabras;
 }
 
 //punto 8
-// funcion que retorna primera victoria
 /**
+ *funcion que retorna primera victoria
  *@param array $coleccionPartidas
  *@param string $nombreJugador
  *@return int
@@ -204,6 +201,7 @@ function primeraVictoria ($coleccionPartidas,$nombreJugador) {
     //boolean $partidaEncontrada
     //int $i, $indiceVictoria, $max 
     $partidaEncontrada=false;
+    //inicializacion de variables. $indiceVictoria comienza en -1 porque??
     $i=0;
     $indiceVictoria=-1;
     $max=count($coleccionPartidas)-1;
@@ -223,7 +221,7 @@ function primeraVictoria ($coleccionPartidas,$nombreJugador) {
  * Retorna el resumen de un jugador
  * @param array $coleccionPartidas
  * @param string $nombreJugador
- * @return array $resumenJugador
+ * @return array $estadisticasJugador
  */
 function resumenJugador($coleccionPartidas, $nombreJugador) {
     //Int puntajeResumen, victoriasResumen, $partidasTotal, $int1, $int2, $int3, $int4, $int5, $int6, $n, $i, $porcentajeVictorias
@@ -247,7 +245,7 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
                 switch ($coleccionPartidas[$i]["intentos"]) {
                     case 1:
                         $int1++;
-                        break;
+                        break;    
                     case 2:
                         $int2++;
                         break;
@@ -271,7 +269,7 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
     }
     if($nombreEncontrado && $victoriasResumen > 0){
         $procentajeVictorias = ($victoriasResumen / $partidasTotal) * 100;
-        echo "
+        $estadisticasJugador = "
     ************************************************************
     Jugador: $nombreJugador\n
     Partidas: $partidasTotal\n
@@ -286,7 +284,10 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
     Intento 5: $int5\n
     Intento 6: $int6\n
     ************************************************************";
+    }else{
+        $estadisticasJugador = "El jugador no existe";
     }
+    return $estadisticasJugador;
 }
 
 
@@ -305,7 +306,7 @@ function solicitarJugador() {
             $nombreJugador = trim(fgets(STDIN));
         }
     }
-    $nombreJugador = strtolower($nombreJugador);
+    $nombreJugador = strtolower($nombreJugador);  // devuelve el string en minusculas
     return $nombreJugador;
 }
 
@@ -314,13 +315,13 @@ function solicitarJugador() {
  * Ordena por nombre y palabra un arreglo ingresado y lo muestra.
  * @param array $coleccionPartidas
  */
-//function ordenarColeccion() //{
-    //uasort($coleccionPartidas);
-//}
+function ordenarColeccion($coleccionPartidas) {
+    uasort($coleccionPartidas, "compararNombres"); //uasort es una función que ordena un arreglo con una función de comparación
+    print_r($coleccionPartidas);                   //definida por el usuario y mantiene la asociación de índices
+}
 
 
-//Extra
-
+//FUNCIONES EXTRAS
 /**
  * Agrega una partida con sus datos a la colecion de partidas
  * @param array $coleccionPartidas
@@ -340,8 +341,8 @@ function agregarPartida($coleccionPartidas, $nuevaPartida) {
  * @return boolean
  */
 function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
-    //boolean $yaJugo
-    //int $i, $n
+    //INT $i, $n
+    //BOOLEAN $yaJugo
     $n = count($coleccionPartidas);
     $yaJugo = false;
     for ($i=0; $i < $n; $i++) {
@@ -352,6 +353,19 @@ function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
     return $yaJugo;
 }
 
+/**
+ * Compara dos strings y retorna el resultado de la comparación
+ * @param array $a
+ * @param array $b
+ * @return int
+ */
+function compararNombres($a, $b) {
+    //Array $a, $b
+    if($a["jugador"] == $b["jugador"]){
+        return $a["palabraWordix"] <=> $b["palabraWordix"];
+    }
+    return $a["jugador"] <=> $b["jugador"];
+}
 
 //Punto 12
 
@@ -385,7 +399,7 @@ $coleccionPalabras = cargarColeccionPalabras();
                 $palabraAJugar = $coleccionPalabras[$numero];
                 $resultado = jugarWordix($palabraAJugar, $nombreJugador);
                 $coleccionPartidas = agregarPartida($coleccionPartidas, $resultado);
-                print_r ($coleccionPartidas);
+                print_r($coleccionPartidas);
                 break;
             case "2":
                 //Sumar partida al arreglo de partidas
@@ -413,10 +427,12 @@ $coleccionPalabras = cargarColeccionPalabras();
                 break;
             case "5":
                 //Mostrar estadisticas del jugador
-                resumenJugador($coleccionPartidas, solicitarJugador());
+                $nombreJugador = solicitarJugador();
+                echo resumenJugador($coleccionPartidas, $nombreJugador);
                 break;
             case "6":
                 //Mostrar listado de partidas ordenadas por jugador y por palabra
+                ordenarColeccion($coleccionPartidas);
                 break;
             case "7":
                 //Agregar una palabra de 5 letras
