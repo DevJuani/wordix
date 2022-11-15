@@ -108,17 +108,21 @@ function cargarColeccionPartidas(){
 //punto 3
 /**
  * Muestra el menú de opciones y retorna la opción elegida
+ * @return string
  */
 function seleccionarOpcion(){
-    echo "\n**********************Wordix**********************
-    \n1) Jugar al Wordix con una palabra elegida
-    \n2) Jugar al Wordix con una palabra aleatoria
-    \n3) Mostrar una partida
-    \n4) Mostrar la primer partida gandora
-    \n5) Mostrar resumen jugador
-    \n6) Mostrar listado de partidas ordenadas por jugador y por palabra
-    \n7) Agregar una palabra de 5 letras a Wordix
-    \n8) Salir\n";
+    //String $opcion
+        echo "\n**********************Wordix**********************
+        \n1) Jugar al Wordix con una palabra elegida
+        \n2) Jugar al Wordix con una palabra aleatoria
+        \n3) Mostrar una partida
+        \n4) Mostrar la primer partida gandora
+        \n5) Mostrar resumen jugador
+        \n6) Mostrar listado de partidas ordenadas por jugador y por palabra
+        \n7) Agregar una palabra de 5 letras a Wordix
+        \n8) Salir\n";
+        $opcion = trim(fgets(STDIN));
+    return $opcion;
 }
 
 //punto 4
@@ -147,30 +151,29 @@ function numeroUsuario ($min, $max) {
 }
 
 // punto 6
-// ver si se puede optimizar (que entre por parametro formal $nro)
 // function que devuelve el resumen de una partida
 /**
- * @param $min
- * @param $maxP
+ * @param $nro
  */   
-//PREGUNTAR SI SE PUEDE DIVIDIR EN MODULOS
-//SOLO TIENE QUE ENTRAR POR PARAMETROS EL NUMERO QUE INDIQUE EL USUARIO EN EL MENU
-function resumenPartida ($min,$maxP,$coleccionPartidas) {
+function resumenPartida ($nro, $coleccionPartidas) {
      //int $nro
-    echo "Ingrese el número de partida: ";
-    $nro = solicitarNumeroEntre ($min, $maxP);
-    $nro--;
-    echo "**********************************".
-    "\nPartida WORDIX $nro: palabra " .$coleccionPartidas [$nro] ["palabraWordix"] . "\n".
-    "Jugador: " .$coleccionPartidas [$nro] ["jugador"] . "\n".
-    "Puntaje: " .$coleccionPartidas [$nro] ["puntaje"] . "\n";
-    if($coleccionPartidas [$nro] ["puntaje"] == 0){
-        echo "No adivinó la palabra\n";
-    } else {
-        echo "Adivinó la palabra en " .$coleccionPartidas [$nro] ["intentos"] . " intentos\n";
+    if($nro != -1){
+        echo "**********************************".
+        "\nPartida WORDIX $nro: palabra " .$coleccionPartidas [$nro] ["palabraWordix"] . "\n".
+        "Jugador: " .$coleccionPartidas [$nro] ["jugador"] . "\n".
+        "Puntaje: " .$coleccionPartidas [$nro] ["puntaje"] . "\n";
+        if($coleccionPartidas [$nro] ["puntaje"] == 0){
+            echo "No adivinó la palabra\n";
+        } else {
+            echo "Adivinó la palabra en " .$coleccionPartidas [$nro] ["intentos"] . " intentos\n";
+        }
+    }
+    else{
+        echo "El jugador no ha jugado ninguna partida\n";
     }
     echo "**********************************";
 }
+
 
 //punto 7
 /**
@@ -191,19 +194,19 @@ return $coleccionPalabras;
 }
 
 //punto 8
-// DOCUMENTAR FUNCION
 // funcion que retorna primera victoria
-// ver si se puede utilizar el modulo 
 /**
  *@param array $coleccionPartidas
  *@param string $nombreJugador
  *@return int
  */
 function primeraVictoria ($coleccionPartidas,$nombreJugador) {
+    //boolean $partidaEncontrada
+    //int $i, $indiceVictoria, $max 
     $partidaEncontrada=false;
     $i=0;
     $indiceVictoria=-1;
-    $max=count($coleccionPartidas);
+    $max=count($coleccionPartidas)-1;
         while (!$partidaEncontrada && $max>=$i) {
             $coleccionPartidas [$i];
             if ($coleccionPartidas [$i] ["jugador"] == $nombreJugador && $coleccionPartidas [$i] ["intentos"] >0 && $coleccionPartidas [$i] ["puntaje"]>0) {
@@ -212,8 +215,8 @@ function primeraVictoria ($coleccionPartidas,$nombreJugador) {
             }
             $i++;
         }
-        return $indiceVictoria;
-    }
+    return $indiceVictoria;
+}
 
 //punto 9
 /**
@@ -266,7 +269,7 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
             $nombreEncontrado = true;
         }
     }
-    if($nombreEncontrado){
+    if($nombreEncontrado && $victoriasResumen > 0){
         $procentajeVictorias = ($victoriasResumen / $partidasTotal) * 100;
         echo "
     ************************************************************
@@ -283,8 +286,6 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
     Intento 5: $int5\n
     Intento 6: $int6\n
     ************************************************************";
-    }else{
-        echo "El jugador no existe";
     }
 }
 
@@ -339,6 +340,8 @@ function agregarPartida($coleccionPartidas, $nuevaPartida) {
  * @return boolean
  */
 function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
+    //boolean $yaJugo
+    //int $i, $n
     $n = count($coleccionPartidas);
     $yaJugo = false;
     for ($i=0; $i < $n; $i++) {
@@ -366,13 +369,10 @@ function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
 //Inicialización de variables:
 $coleccionPartidas = cargarColeccionPartidas();
 $coleccionPalabras = cargarColeccionPalabras();
-$opcion = 0;
 
 //Proceso:
-while($opcion != 8){
     do {
-        seleccionarOpcion();
-        $opcion = trim((fgets(STDIN)));
+        $opcion = seleccionarOpcion();
         switch ($opcion){
             case "1":
                 $nombreJugador = solicitarJugador();
@@ -400,13 +400,16 @@ while($opcion != 8){
                 break;
             case "3":
                 //Mostrar una partida
-                resumenPartida (1, count($coleccionPartidas), $coleccionPartidas);
+                echo "Ingrese el número de partida: ";
+                $numero = solicitarNumeroEntre (1, count($coleccionPartidas));
+                $numero--;
+                resumenPartida($numero, $coleccionPartidas);
                 break;
             case "4":
                 //Mostrar primera partida ganadora
-                //ARREGLAR Y VER LOS COMENTARIOS DEL MODULO primeraVictoria
                 $nombreJugador = solicitarJugador();
-                primeraVictoria($coleccionPartidas, $nombreJugador);
+                $numero = primeraVictoria($coleccionPartidas, $nombreJugador);
+                resumenPartida($numero, $coleccionPartidas);
                 break;
             case "5":
                 //Mostrar estadisticas del jugador
@@ -424,7 +427,6 @@ while($opcion != 8){
                 echo "Gracias por jugar Wordix";
                 break;
             default:
-                echo "Opcion incorrecta, ingrese una opcion valida.\n";
+                echo "Opcion incorrecta, ingrese una opcion valida.";
             }
-    } while ($opcion != 8);
-}
+    } while ($opcion != "8");

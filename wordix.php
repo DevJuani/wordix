@@ -42,16 +42,6 @@ function solicitarNumeroEntre($min, $max)
     return $numero;
 }
 
-// punto 5
-
-  // function numeroUsuario ($min, $max) {
-   // echo "ingrese un numero entre"
-   // $numero=solicitarNumeroEntre($min,$max);
-
-   // return $numero; //
- // }
-//
-
 /**
  * Escrbir un texto en color ROJO
  * @param string $texto)
