@@ -124,7 +124,8 @@ function escribirSegunEstado($texto, $estado)
 }
 
 /**
- * ****COMPLETAR*****
+ * Imprime por pantalla el mensaje de bienvenida
+ * @param string $usuario
  */
 function escribirMensajeBienvenida($usuario)
 {
@@ -137,9 +138,9 @@ function escribirMensajeBienvenida($usuario)
 
 
 /**
- * ****COMPLETAR*****
+ * Comprueba que los caracteres de la palabra ingresada sean letras
  * @param string $cadena
- * @return int
+ * @return boolean
  */
 function esPalabra($cadena)
 {
@@ -155,7 +156,8 @@ function esPalabra($cadena)
 }
 
 /**
- *  ****COMPLETAR*****
+ * Lee una palabra ingresada y comprueba que tenga una longitud de 5 caracteres y que este formada por letras
+ * @return string
  */
 function leerPalabra5Letras()
 {
@@ -173,8 +175,8 @@ function leerPalabra5Letras()
 
 
 /**
- * Inicia una estructura de datos Teclado. La estructura es de tipo: ¿Indexado, asociativo o Multidimensional?
- *@return array
+ * Inicia una estructura de datos Teclado. La estructura es de tipo: asociativo
+ * @return array
  */
 function iniciarTeclado()
 {
