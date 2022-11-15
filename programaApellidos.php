@@ -39,7 +39,7 @@ function cargarColeccionPalabras()
  * @return array
  */
 function cargarColeccionPartidas(){
-    //Array $coleccionPartidas
+    //Array $coleccionPartidas   //arreglo multidimensional
     $coleccionPartidas = [
         [
             "palabraWordix" => "QUESO",
@@ -139,7 +139,7 @@ function palabraPorJugador(){
  * @param int $max
  * @return int
  */
-function numeroUsuario ($min, $max) {
+function numeroUsuario ($min, $max) {             //esta funcion es reutilizada en otros módulos
     //int $numero
     echo "ingrese un numero entre $min y $max.\n";
     $numero=solicitarNumeroEntre($min,$max);
@@ -181,7 +181,7 @@ function resumenPartida ($min,$maxP,$coleccionPartidas) {
  */
 function agregarPalabra ($coleccionPalabras,$nuevaPalabra){
     if(!in_array($nuevaPalabra, $coleccionPalabras)){
-        array_push($coleccionPalabras, $nuevaPalabra);
+        array_push($coleccionPalabras, $nuevaPalabra);                      //trata al array como si fuera una pila y empuja la variable que se le pasa al final del array. El tamaño del array será incrementado por el número de variables insertados
         echo "La palabra se ha agregado a la colección de palabras";
     } else {
         echo "La palabra ya se encuentra en la colección de palabras";
@@ -201,10 +201,11 @@ return $coleccionPalabras;
  */
 function primeraVictoria ($coleccionPartidas,$nombreJugador) {
     $partidaEncontrada=false;
+    //inicializacion de variables. $indiceVictoria comienza en -1 porque??
     $i=0;
     $indiceVictoria=-1;
-    $max=count($coleccionPartidas);
-        while (!$partidaEncontrada && $max>=$i) {
+    $max=count($coleccionPartidas); 
+        while (!$partidaEncontrada && $max>=$i) {    // se realiza un recorrido parcial 
             $coleccionPartidas [$i];
             if ($coleccionPartidas [$i] ["jugador"] == $nombreJugador && $coleccionPartidas [$i] ["intentos"] >0 && $coleccionPartidas [$i] ["puntaje"]>0) {
                 $indiceVictoria=$i;
@@ -244,7 +245,7 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
                 switch ($coleccionPartidas[$i]["intentos"]) {
                     case 1:
                         $int1++;
-                        break;
+                        break;    
                     case 2:
                         $int2++;
                         break;
@@ -283,7 +284,14 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
     Intento 5: $int5\n
     Intento 6: $int6\n
     ************************************************************";
-    }else{
+    }
+
+    // lo que hizo dani
+    else if ($nombreEncontrado==true && $partidasTotal==0){
+        echo "El jugador".$nombreJugador."no ganó ninguna partida";
+
+    }
+    else {
         echo "El jugador no existe";
     }
 }
@@ -298,13 +306,14 @@ function solicitarJugador() {
     //String nombreJugador
     echo "Ingrese el nombre de un jugador: ";
     $nombreJugador = trim(fgets(STDIN));
-    while (!ctype_alpha(substr($nombreJugador, 0))) {
+    while (!ctype_alpha(substr($nombreJugador, 0))) {               // !ctype_alpha chequea caràcteres alfabeticos 
+        while (!ctype_alpha(substr($nombreJugador, 0))) {           // substr que hace? devuelve parte de una cadena?  
         if (!ctype_alpha(substr($nombreJugador, 0))) {
             echo "Error, el primer carácter no es una letra. Ingrese el nombre de un jugador: ";
             $nombreJugador = trim(fgets(STDIN));
         }
     }
-    $nombreJugador = strtolower($nombreJugador);
+    $nombreJugador = strtolower($nombreJugador);  // devuelve el string en minusculas
     return $nombreJugador;
 }
 
@@ -339,7 +348,7 @@ function agregarPartida($coleccionPartidas, $nuevaPartida) {
  * @return boolean
  */
 function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
-    $n = count($coleccionPartidas);
+    $n = count($coleccionPartidas);  //count, cuenta los elementos del arreglo
     $yaJugo = false;
     for ($i=0; $i < $n; $i++) {
         if ($coleccionPartidas[$i]["jugador"] == $nombreJugador && $coleccionPartidas[$i]["palabraWordix"] == $palabra) {
