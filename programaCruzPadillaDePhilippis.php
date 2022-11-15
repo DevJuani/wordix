@@ -399,7 +399,6 @@ $coleccionPalabras = cargarColeccionPalabras();
                 $palabraAJugar = $coleccionPalabras[$numero];
                 $resultado = jugarWordix($palabraAJugar, $nombreJugador);
                 $coleccionPartidas = agregarPartida($coleccionPartidas, $resultado);
-                print_r($coleccionPartidas);
                 break;
             case "2":
                 //Sumar partida al arreglo de partidas
