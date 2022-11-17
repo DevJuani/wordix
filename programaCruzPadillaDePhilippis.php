@@ -155,21 +155,22 @@ function numeroUsuario ($min, $max) {
  * @param $nro
  */   
 function resumenPartida ($nro, $coleccionPartidas) {
-    if($nro != -1){
+    if($nro > -1 && $coleccionPartidas [$nro] ["puntaje"] >= 0 && $coleccionPartidas [$nro] ["intentos"] >= 0){
         echo "**********************************".
-        "\nPartida WORDIX $nro: palabra " .$coleccionPartidas [$nro] ["palabraWordix"] . "\n".
+        "\nPartida WORDIX " . $nro+1 .": palabra " .$coleccionPartidas [$nro] ["palabraWordix"] . "\n".
         "Jugador: " .$coleccionPartidas [$nro] ["jugador"] . "\n".
-        "Puntaje: " .$coleccionPartidas [$nro] ["puntaje"] . "\n";
-        if($coleccionPartidas [$nro] ["puntaje"] == 0){
-            echo "No adivinó la palabra\n";
+        "Puntaje: " .$coleccionPartidas [$nro] ["puntaje"] . "\n".
+        "Intentos: ";
+        if($coleccionPartidas [$nro] ["puntaje"] > 0){
+            echo "Adivinó la palabra en ". $coleccionPartidas [$nro] ["intentos"] . " intentos\n";
         } else {
-            echo "Adivinó la palabra en " .$coleccionPartidas [$nro] ["intentos"] . " intentos\n";
+            echo "No adivinó la palabra\n";
         }
+    } elseif($nro == -1){
+        echo "El jugador no ganó ninguna partida\n";
+    }else if($nro == -2){
+        echo "El jugador no existe\n";
     }
-    else{
-        echo "El jugador no ha jugado ninguna partida\n";
-    }
-    echo "**********************************";
 }
 
 //punto 7
@@ -186,7 +187,6 @@ function agregarPalabra ($coleccionPalabras,$nuevaPalabra){
     } else {
         echo "La palabra ya se encuentra en la colección de palabras";
     }
-    print_r($coleccionPalabras);
 return $coleccionPalabras;
 }
 
@@ -205,13 +205,16 @@ function primeraVictoria ($coleccionPartidas,$nombreJugador) {
     $i=0;
     $indiceVictoria=-1;
     $max=count($coleccionPartidas)-1;
-        while (!$partidaEncontrada && $max>=$i) {
+        while ($partidaEncontrada == false && $max>=$i) {
             $coleccionPartidas [$i];
-            if ($coleccionPartidas [$i] ["jugador"] == $nombreJugador && $coleccionPartidas [$i] ["intentos"] >0 && $coleccionPartidas [$i] ["puntaje"]>0) {
+            if ($coleccionPartidas [$i] ["jugador"] == $nombreJugador && $coleccionPartidas [$i] ["intentos"] >=0 && $coleccionPartidas [$i] ["puntaje"]>0) {
                 $indiceVictoria=$i;
                 $partidaEncontrada=true;        
             }
             $i++;
+        }
+        if(!existenciaUsuario($nombreJugador, $coleccionPartidas)){
+            $indiceVictoria = -2;
         }
     return $indiceVictoria;
 }
@@ -284,7 +287,9 @@ function resumenJugador($coleccionPartidas, $nombreJugador) {
     Intento 5: $int5\n
     Intento 6: $int6\n
     ************************************************************";
-    }else{
+    }elseif($nombreEncontrado == true && $partidasTotal> 0){
+        $estadisticasJugador = "El jugador $nombreJugador no ganó ninguna partida";
+    } else{
         $estadisticasJugador = "El jugador no existe";
     }
     return $estadisticasJugador;
@@ -300,11 +305,9 @@ function solicitarJugador() {
     //String nombreJugador
     echo "Ingrese el nombre de un jugador: ";
     $nombreJugador = trim(fgets(STDIN));
-    while (!ctype_alpha(substr($nombreJugador, 0))) {
-        if (!ctype_alpha(substr($nombreJugador, 0))) {
+    while (!ctype_alpha(substr($nombreJugador, 0, 1))) {
             echo "Error, el primer carácter no es una letra. Ingrese el nombre de un jugador: ";
             $nombreJugador = trim(fgets(STDIN));
-        }
     }
     $nombreJugador = strtolower($nombreJugador);  // devuelve el string en minusculas
     return $nombreJugador;
@@ -318,6 +321,19 @@ function solicitarJugador() {
 function ordenarColeccion($coleccionPartidas) {
     uasort($coleccionPartidas, "compararNombres"); //uasort es una función que ordena un arreglo con una función de comparación
     print_r($coleccionPartidas);                   //definida por el usuario y mantiene la asociación de índices
+}
+/**
+ * Compara dos strings y retorna el resultado de la comparación
+ * @param array $a
+ * @param array $b
+ * @return int
+ */
+function compararNombres($a, $b) {
+    //Array $a, $b
+    if($a["jugador"] == $b["jugador"]){
+        return $a["palabraWordix"] <=> $b["palabraWordix"];
+    }
+    return $a["jugador"] <=> $b["jugador"];
 }
 
 
@@ -353,18 +369,21 @@ function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
     return $yaJugo;
 }
 
-/**
- * Compara dos strings y retorna el resultado de la comparación
- * @param array $a
- * @param array $b
- * @return int
+/** 
+* Funcion que comprueba la escistencia de un usuario en el arreglo de partidas
+* @param String nombreJugador
+* @param array $coleccionPartidas
+* @return boolean
  */
-function compararNombres($a, $b) {
-    //Array $a, $b
-    if($a["jugador"] == $b["jugador"]){
-        return $a["palabraWordix"] <=> $b["palabraWordix"];
+function existenciaUsuario($nombreJugador, $coleccionPartidas){
+    $n = count($coleccionPartidas);
+    $existe = false;
+    for ($i=0; $i < $n; $i++) {
+        if ($coleccionPartidas[$i]["jugador"] == $nombreJugador) {
+            $existe = true;
+        }
     }
-    return $a["jugador"] <=> $b["jugador"];
+    return $existe;
 }
 
 //Punto 12
@@ -445,3 +464,7 @@ $coleccionPalabras = cargarColeccionPalabras();
                 echo "Opcion incorrecta, ingrese una opcion valida.";
             }
     } while ($opcion != "8");
+
+    //El swtich corresponde a la estructura if ya que dependiendo el valor de la variable a evaluar
+    //Ingresara al caso correspondiente, si no se cumple ninguna condicion se ejecutara el default
+    //y se utiliza el break para que el codigo no siga ejecutando los demas casos.
