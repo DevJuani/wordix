@@ -329,11 +329,24 @@ function ordenarColeccion($coleccionPartidas) {
  * @return int
  */
 function compararNombres($a, $b) {
-    //Array $a, $b
+    //Array $a, $b, $resultado
     if($a["jugador"] == $b["jugador"]){
-        return $a["palabraWordix"] <=> $b["palabraWordix"];
+        if ($a["palabraWordix"] > $b["palabraWordix"]) {
+            $resultado = 1;
+        } elseif ($a["palabraWordix"] < $b["palabraWordix"]) {
+            $resultado = -1;
+        } else {
+            $resultado = 0;
+        }
     }
-    return $a["jugador"] <=> $b["jugador"];
+    if ($a["jugador"] > $b["jugador"]) {
+        $resultado = 1;
+    } elseif ($a["jugador"] < $b["jugador"]) {
+        $resultado = -1;
+    } else {
+        $resultado = 0;
+    }
+    return $resultado;
 }
 
 
