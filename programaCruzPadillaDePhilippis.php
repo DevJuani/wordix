@@ -330,21 +330,20 @@ function ordenarColeccion($coleccionPartidas) {
  */
 function compararNombres($a, $b) {
     //Array $a, $b, $resultado
-    if($a["jugador"] == $b["jugador"]){
-        if ($a["palabraWordix"] > $b["palabraWordix"]) {
-            $resultado = 1;
-        } elseif ($a["palabraWordix"] < $b["palabraWordix"]) {
-            $resultado = -1;
-        } else {
-            $resultado = 0;
-        }
-    }
     if ($a["jugador"] > $b["jugador"]) {
         $resultado = 1;
     } elseif ($a["jugador"] < $b["jugador"]) {
         $resultado = -1;
     } else {
-        $resultado = 0;
+        if($a["jugador"] == $b["jugador"]){
+            if ($a["palabraWordix"] > $b["palabraWordix"]) {
+                $resultado = 1;
+            } elseif ($a["palabraWordix"] < $b["palabraWordix"]) {
+                $resultado = -1;
+            } else {
+                $resultado = 0;
+            }
+        }
     }
     return $resultado;
 }
