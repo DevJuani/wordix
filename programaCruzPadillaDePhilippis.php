@@ -82,24 +82,6 @@ function cargarColeccionPartidas(){
             "jugador" => "moira",
             "intentos" => 4,
             "puntaje" => 14
-        ],
-        [
-            "palabraWordix" => "PASTA",
-            "jugador" => "aroy",
-            "intentos" => 6,
-            "puntaje" => 12
-        ],
-        [
-            "palabraWordix" => "VERDE",
-            "jugador" => "aroy",
-            "intentos" => 1,
-            "puntaje" => 16
-        ],
-        [
-            "palabraWordix" => "MUJER",
-            "jugador" => "duende",
-            "intentos" => 6,
-            "puntaje" => 0
         ]
     ];
     return ($coleccionPartidas);
@@ -150,7 +132,7 @@ function numeroUsuario ($min, $max) {
 }
 
 // punto 6
-// function que devuelve el resumen de una partida
+// funcion que devuelve el resumen de una partida
 /**
  * @param $nro
  */   
@@ -192,7 +174,9 @@ return $coleccionPalabras;
 
 //punto 8
 /**
- *funcion que retorna primera victoria
+ *funcion que retorna el indice de la primera victoria
+ *retorna -1 si no hay victorias
+ *retorna -2 si no existe el jugador
  *@param array $coleccionPartidas
  *@param string $nombreJugador
  *@return int
@@ -315,7 +299,7 @@ function solicitarJugador() {
 
 //Punto 11
 /**
- * Ordena por nombre y palabra un arreglo ingresado y lo muestra.
+ * Ordena por orden alfabetico de nombre y palabra la coleccion de partidas y lo muestra.
  * @param array $coleccionPartidas
  */
 function ordenarColeccion($coleccionPartidas) {
@@ -324,6 +308,9 @@ function ordenarColeccion($coleccionPartidas) {
 }
 /**
  * Compara dos strings y retorna el resultado de la comparación
+ * retoran 1 si el primer string es mayor al segundo, ya sea jugador o palabra
+ * retorna -1 si el primer string es menor al segundo
+ * retorna 0 si son iguales
  * @param array $a
  * @param array $b
  * @return int
@@ -335,14 +322,12 @@ function compararNombres($a, $b) {
     } elseif ($a["jugador"] < $b["jugador"]) {
         $resultado = -1;
     } else {
-        if($a["jugador"] == $b["jugador"]){
-            if ($a["palabraWordix"] > $b["palabraWordix"]) {
-                $resultado = 1;
-            } elseif ($a["palabraWordix"] < $b["palabraWordix"]) {
-                $resultado = -1;
-            } else {
-                $resultado = 0;
-            }
+        if ($a["palabraWordix"] > $b["palabraWordix"]) {
+            $resultado = 1;
+        } elseif ($a["palabraWordix"] < $b["palabraWordix"]) {
+            $resultado = -1;
+        } else {
+            $resultado = 0;
         }
     }
     return $resultado;
@@ -371,12 +356,14 @@ function agregarPartida($coleccionPartidas, $nuevaPartida) {
 function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
     //INT $i, $n
     //BOOLEAN $yaJugo
+    $i = 0;
     $n = count($coleccionPartidas);
     $yaJugo = false;
-    for ($i=0; $i < $n; $i++) {
+    while ($i < $n && $yaJugo == false) {
         if ($coleccionPartidas[$i]["jugador"] == $nombreJugador && $coleccionPartidas[$i]["palabraWordix"] == $palabra) {
             $yaJugo = true;
         }
+        $i++;
     }
     return $yaJugo;
 }
@@ -388,12 +375,16 @@ function yaJugoPalabra($coleccionPartidas, $nombreJugador, $palabra) {
 * @return boolean
  */
 function existenciaUsuario($nombreJugador, $coleccionPartidas){
+    //INT $i, $n
+    //BOOLEAN $existe
+    $i = 0;
     $n = count($coleccionPartidas);
     $existe = false;
-    for ($i=0; $i < $n; $i++) {
+    while($i < $n && $existe == false){
         if ($coleccionPartidas[$i]["jugador"] == $nombreJugador) {
             $existe = true;
         }
+        $i++;
     }
     return $existe;
 }
